@@ -6,6 +6,7 @@ using ASPNETCoreIdentitySample.ViewModels.Identity.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace ASPNETCoreIdentitySample.DataLayer.Context
 {
@@ -28,6 +29,9 @@ namespace ASPNETCoreIdentitySample.DataLayer.Context
                 case ActiveDatabase.LocalDb:
                 case ActiveDatabase.SqlServer:
                     serviceCollection.AddEntityFrameworkSqlServer();
+                    break;
+                
+                case ActiveDatabase.MySql:
                     break;
 
                 default:
@@ -53,8 +57,16 @@ namespace ASPNETCoreIdentitySample.DataLayer.Context
                         {
                             var minutes = (int)TimeSpan.FromMinutes(3).TotalSeconds;
                             serverDbContextOptionsBuilder.CommandTimeout(minutes);
-                            serverDbContextOptionsBuilder.EnableRetryOnFailure();
+                            serverDbContextOptionsBuilder.EnableRetryOnFailure();                            
                         });
+                    break;
+                
+                case ActiveDatabase.MySql:
+                optionsBuilder.UseMySql(  siteSettings.GetDbConnectionString(), // replace with your Connection String
+                    mysqlOptions =>
+                    {
+                        mysqlOptions.ServerVersion(new Version(8, 0, 13), ServerType.MySql); // replace with your Server Version and Type
+                    });
                     break;
 
                 default:
@@ -86,6 +98,9 @@ namespace ASPNETCoreIdentitySample.DataLayer.Context
 
                 case ActiveDatabase.SqlServer:
                     return siteSettingsValue.ConnectionStrings.SqlServer.ApplicationDbContextConnection;
+
+                case ActiveDatabase.MySql:
+                 return siteSettingsValue.ConnectionStrings.MySql.ApplicationDbContextConnection;
 
                 default:
                     throw new NotSupportedException("Please set the ActiveDatabase in appsettings.json file.");
