@@ -32,6 +32,7 @@ namespace ASPNETCoreIdentitySample.DataLayer.Context
                     break;
                 
                 case ActiveDatabase.MySql:
+                serviceCollection.AddEntityFrameworkMySql();
                     break;
 
                 default:

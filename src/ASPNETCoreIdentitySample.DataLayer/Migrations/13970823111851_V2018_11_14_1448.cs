@@ -4,19 +4,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ASPNETCoreIdentitySample.DataLayer.Migrations
 {
-    public partial class V2018_06_30_1022 : Migration
+    public partial class V2018_11_14_1448 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.EnsureSchema(
-                name: "dbo");
-
             migrationBuilder.CreateTable(
                 name: "AppDataProtectionKeys",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     FriendlyName = table.Column<string>(nullable: true),
                     XmlData = table.Column<string>(nullable: true)
                 },
@@ -30,7 +27,7 @@ namespace ASPNETCoreIdentitySample.DataLayer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     CreatedDateTime = table.Column<DateTimeOffset>(nullable: true),
                     EventId = table.Column<int>(nullable: false),
                     Url = table.Column<string>(nullable: true),
@@ -56,7 +53,7 @@ namespace ASPNETCoreIdentitySample.DataLayer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
@@ -79,22 +76,22 @@ namespace ASPNETCoreIdentitySample.DataLayer.Migrations
                 name: "AppUsers",
                 columns: table => new
                 {
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
                     PasswordHash = table.Column<string>(nullable: true),
                     SecurityStamp = table.Column<string>(nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(maxLength: 450, nullable: true),
                     LastName = table.Column<string>(maxLength: 450, nullable: true),
                     PhotoFileName = table.Column<string>(maxLength: 450, nullable: true),
@@ -122,7 +119,7 @@ namespace ASPNETCoreIdentitySample.DataLayer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 450, nullable: false),
                     Title = table.Column<string>(nullable: false),
                     CreatedByBrowserName = table.Column<string>(maxLength: 1000, nullable: true),
@@ -140,27 +137,11 @@ namespace ASPNETCoreIdentitySample.DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppSqlCache",
-                schema: "dbo",
-                columns: table => new
-                {
-                    Id = table.Column<string>(maxLength: 449, nullable: false),
-                    Value = table.Column<byte[]>(nullable: false),
-                    ExpiresAtTime = table.Column<DateTimeOffset>(nullable: false),
-                    SlidingExpirationInSeconds = table.Column<long>(nullable: true),
-                    AbsoluteExpiration = table.Column<DateTimeOffset>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppSqlCache", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AppRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     RoleId = table.Column<int>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true),
@@ -189,7 +170,7 @@ namespace ASPNETCoreIdentitySample.DataLayer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true),
@@ -217,10 +198,10 @@ namespace ASPNETCoreIdentitySample.DataLayer.Migrations
                 name: "AppUserLogins",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false),
                     LoginProvider = table.Column<string>(nullable: false),
                     ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
+                    UserId = table.Column<int>(nullable: false),
                     CreatedByBrowserName = table.Column<string>(maxLength: 1000, nullable: true),
                     CreatedByIp = table.Column<string>(maxLength: 255, nullable: true),
                     CreatedByUserId = table.Column<int>(nullable: true),
@@ -245,8 +226,8 @@ namespace ASPNETCoreIdentitySample.DataLayer.Migrations
                 name: "AppUserRoles",
                 columns: table => new
                 {
-                    RoleId = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
+                    RoleId = table.Column<int>(nullable: false),
                     CreatedByBrowserName = table.Column<string>(maxLength: 1000, nullable: true),
                     CreatedByIp = table.Column<string>(maxLength: 255, nullable: true),
                     CreatedByUserId = table.Column<int>(nullable: true),
@@ -306,7 +287,7 @@ namespace ASPNETCoreIdentitySample.DataLayer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     HashedPassword = table.Column<string>(maxLength: 450, nullable: false),
                     UserId = table.Column<int>(nullable: false),
                     CreatedByBrowserName = table.Column<string>(maxLength: 1000, nullable: true),
@@ -334,7 +315,7 @@ namespace ASPNETCoreIdentitySample.DataLayer.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 450, nullable: false),
                     Price = table.Column<decimal>(nullable: false),
                     CategoryId = table.Column<int>(nullable: false),
@@ -362,8 +343,7 @@ namespace ASPNETCoreIdentitySample.DataLayer.Migrations
                 name: "IX_AppDataProtectionKeys_FriendlyName",
                 table: "AppDataProtectionKeys",
                 column: "FriendlyName",
-                unique: true,
-                filter: "[FriendlyName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppRoleClaims_RoleId",
@@ -374,8 +354,7 @@ namespace ASPNETCoreIdentitySample.DataLayer.Migrations
                 name: "RoleNameIndex",
                 table: "AppRoles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppUserClaims_UserId",
@@ -401,8 +380,7 @@ namespace ASPNETCoreIdentitySample.DataLayer.Migrations
                 name: "UserNameIndex",
                 table: "AppUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppUserUsedPasswords_UserId",
@@ -413,12 +391,6 @@ namespace ASPNETCoreIdentitySample.DataLayer.Migrations
                 name: "IX_Products_CategoryId",
                 table: "Products",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "Index_ExpiresAtTime",
-                schema: "dbo",
-                table: "AppSqlCache",
-                column: "ExpiresAtTime");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -449,10 +421,6 @@ namespace ASPNETCoreIdentitySample.DataLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Products");
-
-            migrationBuilder.DropTable(
-                name: "AppSqlCache",
-                schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "AppRoles");

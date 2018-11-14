@@ -64,15 +64,15 @@ namespace ASPNETCoreIdentitySample.DataLayer.Mappings
                     .WithMany(applicationUser => applicationUser.UserUsedPasswords);
             });
 
-            modelBuilder.Entity<AppSqlCache>(builder =>
-            {
-                // For Microsoft.Extensions.Caching.SqlServer
-                var cacheOptions = siteSettings.CookieOptions.DistributedSqlServerCacheOptions;
-                builder.ToTable(cacheOptions.TableName, cacheOptions.SchemaName);
-                builder.HasIndex(e => e.ExpiresAtTime).HasName("Index_ExpiresAtTime");
-                builder.Property(e => e.Id).HasMaxLength(449);
-                builder.Property(e => e.Value).IsRequired();
-            });
+            // modelBuilder.Entity<AppSqlCache>(builder =>
+            // {
+            //     // For Microsoft.Extensions.Caching.SqlServer
+            //     var cacheOptions = siteSettings.CookieOptions.DistributedSqlServerCacheOptions;
+            //     builder.ToTable(cacheOptions.TableName, cacheOptions.SchemaName);
+            //     builder.HasIndex(e => e.ExpiresAtTime).HasName("Index_ExpiresAtTime");
+            //     builder.Property(e => e.Id).HasMaxLength(449);
+            //     builder.Property(e => e.Value).IsRequired();
+            // });
 
             modelBuilder.Entity<AppDataProtectionKey>(builder =>
             {
